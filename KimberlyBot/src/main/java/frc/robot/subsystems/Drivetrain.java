@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import frc.robot.RobotMap;
+import frc.robot.commands.Drive;
 
 /**
  * Add your docs here.
@@ -18,6 +19,7 @@ import frc.robot.RobotMap;
 public class Drivetrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
+
   public DifferentialDrive diffDrive;
   double inputSpeed;
   double inputTurn;
@@ -37,18 +39,18 @@ public class Drivetrain extends Subsystem {
 
   public void drive(Joystick joy) {
     inputSpeed = -joy.getRawAxis(1);
-    inputTurn = joy.getRawAxis(4);
+      inputTurn = joy.getRawAxis(4);
 
-    drive(inputSpeed, inputTurn);
+      drive(inputSpeed, inputTurn);
   }
 
   public void drive(double speed, double turn) {
-    diffDrive.arcadeDrive(speed, turn, true);
+      diffDrive.arcadeDrive(speed, turn, true);
   }
-
+  
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    setDefaultCommand(new Drive());
+     setDefaultCommand(new Drive());
   }
 }
