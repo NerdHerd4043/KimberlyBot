@@ -30,4 +30,6 @@ public class RobotMap {
   public static WPI_TalonSRX motorFL = new WPI_TalonSRX(11);
   public static WPI_TalonSRX motorBR = new WPI_TalonSRX(12);
   public static WPI_TalonSRX motorBL = new WPI_TalonSRX(15);
+
+  public static WPI_TalonSRX moterYEET = new WPI_TalonSRX(2);
 }

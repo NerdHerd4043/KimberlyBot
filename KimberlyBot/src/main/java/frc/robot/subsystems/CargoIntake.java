@@ -8,6 +8,9 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import frc.robot.RobotMap;
+import frc.robot.commands.TriggerYeet;
+import frc.robot.Robot;
 
 /**
  * Add your docs here.
@@ -16,9 +19,16 @@ public class CargoIntake extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
 
+  public void triggerYeet() {
+    double rightTrigger = Robot.m_oi.getDrivestick().getRawAxis(3);
+    double leftTrigger = Robot.m_oi.getDrivestick().getRawAxis(2);
+
+    RobotMap.moterYEET.set(rightTrigger - leftTrigger);
+  }
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.
-    // setDefaultCommand(new MySpecialCommand());
+    setDefaultCommand(new TriggerYeet());
   }
 }
