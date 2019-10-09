@@ -23,6 +23,7 @@ public class Robot extends TimedRobot {
 
   public static Drivetrain drivetrain;
   public static CargoIntake cargoIntake;
+  public static HatchLatch hatchLatch;
 
   public static OI m_oi;
 
@@ -36,6 +37,7 @@ public class Robot extends TimedRobot {
 
     drivetrain = new Drivetrain();
     cargoIntake = new CargoIntake();
+    hatchLatch = new HatchLatch();
 
     m_oi = new OI();
   }

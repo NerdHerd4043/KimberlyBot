@@ -40,7 +40,14 @@ public class OI {
   // Start the command when the button is released and let it run the command
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
+
+  Button hatchToggle = new JoystickButton(driveStick, 3);
+  Button hatchInOut = new JoystickButton(driveStick, 4);
+
+
   Joystick driveStick = new Joystick(0);
+
+  
 
   public Joystick getDrivestick() {
     return driveStick;
