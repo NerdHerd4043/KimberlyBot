@@ -12,6 +12,11 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 //import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+
+import edu.wpi.first.networktables.NetworkTableEntry;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -24,6 +29,10 @@ public class Robot extends TimedRobot {
   public static Drivetrain drivetrain;
   public static CargoIntake cargoIntake;
   public static HatchLatch hatchLatch;
+
+  public static NetworkTableEntry arcadeDrive;
+  public static NetworkTableEntry hatchExtend;
+  public static NetworkTableEntry hatchOpen;
 
   public static OI m_oi;
 

@@ -17,6 +17,43 @@ import frc.robot.RobotMap;
 public class HatchLatch extends Subsystem {
   private boolean latchState = false; 
   private boolean latchLocation = false;
+
+public void toggleState() {
+  latchState = !latchState;
+  setLatch();
+}
+
+public void toggleLocation() {
+  latchState = !latchState;
+  setLatch();
+}
+
+public void reset(){
+  latchLocation = false;
+  latchState = false;
+
+  updateShuffleBoard();
+}
+
+void updateShuffleBoard() {
+  Robot.hatchOpen.setBoolean(latchState);
+  Robot.hatchExtend.setBoolean(latchLocation);
+}
+
+public void setLatch() {
+  Robot.hatchOpen.setBoolean(latchState);
+  Robot.hatchExtend.setBoolean(latchLocation);
+
+  updateShuffleBoard();
+}
+
+public void safeMode() {
+  latchState = false;
+  latchLocation = false;
+
+  updateShuffleBoard();
+}
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

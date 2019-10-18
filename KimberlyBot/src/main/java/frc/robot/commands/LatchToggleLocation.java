@@ -10,18 +10,43 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.command.Command;
 import frc.robot.Robot;
 
-public class LatchToggleLocation extends Command{
-public LatchToggleLocation(){
-    //use requires() to use subsystem
-requires(Robot.hatchLatch);
-}
-@Override
-protected void initialize(){
-Robot.hatchLatch.toggleLocation();
-}
+public class LatchToggleLocation extends Command {
+  public LatchToggleLocation() {
+    // Use requires() here to declare subsystem dependencies
+    // eg. requires(chassis);
+    requires(Robot.hatchLatch);
+  }
 
+  // Called just before this Command runs the first time
+  @Override
+  protected void initialize() {
+    Robot.hatchLatch.toggleLocation();
+    // System.out.println("in-out toggle");
+  }
 
-}
+  // Called repeatedly when this Command is scheduled to run
+  @Override
+  protected void execute() {
+  }
 
-public class LatchToggleLocation {
+  // Make this return true when this Command no longer needs to run execute()
+  @Override
+  protected boolean isFinished() {
+    return true;
+  }
+
+  // Called once after isFinished returns true
+  @Override
+  protected void end() {
+    // System.out.println("end latchToggle");
+    // Robot.hatchLatch.setLatch();
+  }
+
+  // Called when another command which requires one or more of the same
+  // subsystems is scheduled to run
+  @Override
+  protected void interrupted() {
+    // System.out.println("interrupted latchToggle");
+    // Robot.hatchLatch.setLatch();
+  }
 }
