@@ -45,23 +45,19 @@ public class OI {
   // until it is finished as determined by it's isFinished method.
   // button.whenReleased(new ExampleCommand());
 
- public OI() {
-  hatchToggle.whenPressed(new LatchToggleGrab());
-  hatchInOut.whenPressed(new LatchToggleLocation());
- }
 
 
   Joystick driveStick = new Joystick(0);
 
-  
   Button hatchToggle = new JoystickButton(driveStick, 3);
   Button hatchInOut = new JoystickButton(driveStick, 4);
 
-  
+  public OI() {
+    hatchToggle.whenPressed(new LatchToggleGrab());
+    hatchInOut.whenPressed(new LatchToggleLocation());
+   }
 
-  public Joystick getDrivestick() {
+public Joystick getDrivestick() {
     return driveStick;
   }
-
-
 }
