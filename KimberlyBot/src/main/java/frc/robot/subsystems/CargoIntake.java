@@ -23,7 +23,7 @@ public class CargoIntake extends Subsystem {
     double rightTrigger = Robot.m_oi.getDrivestick().getRawAxis(3);
     double leftTrigger = Robot.m_oi.getDrivestick().getRawAxis(2);
 
-    RobotMap.motorYEET.set(rightTrigger - leftTrigger);
+    RobotMap.motorYEET.set(leftTrigger - rightTrigger);
   }
 
   @Override

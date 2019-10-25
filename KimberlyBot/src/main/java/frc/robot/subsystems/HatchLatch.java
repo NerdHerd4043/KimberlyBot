@@ -9,7 +9,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 import frc.robot.Robot;
-// import frc.robot.RobotMap;
+import frc.robot.RobotMap;
 
 /**
  * Add your docs here.
@@ -24,7 +24,7 @@ public void toggleState() {
 }
 
 public void toggleLocation() {
-  latchState = !latchState;
+  latchLocation = !latchLocation;
   setLatch();
 }
 
@@ -41,8 +41,8 @@ void updateShuffleBoard() {
 }
 
 public void setLatch() {
-  Robot.hatchOpen.setBoolean(latchState);
-  Robot.hatchExtend.setBoolean(latchLocation);
+  RobotMap.hatchGrab.set(latchState);
+  RobotMap.hatchMove.set(latchLocation);
 
   updateShuffleBoard();
 }

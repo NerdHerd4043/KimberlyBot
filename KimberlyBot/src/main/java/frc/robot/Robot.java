@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 //import frc.robot.commands.*;
 import frc.robot.subsystems.*;
 
-// import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-
 import edu.wpi.first.networktables.NetworkTableEntry;
+
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -34,6 +34,7 @@ public class Robot extends TimedRobot {
   public static NetworkTableEntry hatchExtend;
   public static NetworkTableEntry hatchOpen;
 
+// always add last
   public static OI m_oi;
 
 
@@ -47,6 +48,21 @@ public class Robot extends TimedRobot {
     drivetrain = new Drivetrain();
     cargoIntake = new CargoIntake();
     hatchLatch = new HatchLatch();
+
+    ShuffleboardTab shuffTab = Shuffleboard.getTab("Drive");
+
+    hatchOpen = shuffTab
+    .add("HatchOpen", false) 
+    .withWidget(BuiltInWidgets.kBooleanBox)
+    .withPosition(0, 1)
+    .getEntry();
+
+  hatchExtend = shuffTab
+    .add("HatchExtend", false) 
+    .withWidget(BuiltInWidgets.kBooleanBox)
+    .withPosition(0, 0)
+    .getEntry();  
+
 
     m_oi = new OI();
   }
