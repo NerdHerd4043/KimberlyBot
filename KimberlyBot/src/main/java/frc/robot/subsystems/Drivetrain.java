@@ -19,7 +19,6 @@ import frc.robot.commands.Drive;
 public class Drivetrain extends Subsystem {
   // Put methods for controlling this subsystem
   // here. Call these from Commands.
-
   public DifferentialDrive diffDrive;
   double inputSpeed;
   double inputTurn;
@@ -48,6 +47,14 @@ public class Drivetrain extends Subsystem {
       diffDrive.arcadeDrive(speed, turn, true);
   }
   
+public void shift(){
+  RobotMap.shifter.set(true);
+}
+
+public void antiShift() {
+  RobotMap.shifter.set(false);
+}
+
   @Override
   public void initDefaultCommand() {
     // Set the default command for a subsystem here.

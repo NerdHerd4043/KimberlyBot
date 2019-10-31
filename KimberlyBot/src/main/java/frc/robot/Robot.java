@@ -7,16 +7,30 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.command.Scheduler;
-//import frc.robot.commands.*;
-import frc.robot.subsystems.*;
+import org.opencv.core.Mat;
+import org.opencv.core.Rect;
+import org.opencv.imgproc.Imgproc;
 
+import edu.wpi.cscore.CvSink;
+import edu.wpi.cscore.MjpegServer;
+import edu.wpi.cscore.UsbCamera;
+
+// import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;   
+
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTableEntry;
-
+import edu.wpi.first.wpilibj.TimedRobot;
+// import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import frc.robot.GripPipeline;
+
+import frc.robot.subsystems.*;
+
+import java.lang.Thread;
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the TimedRobot
@@ -33,6 +47,20 @@ public class Robot extends TimedRobot {
   public static NetworkTableEntry arcadeDrive;
   public static NetworkTableEntry hatchExtend;
   public static NetworkTableEntry hatchOpen;
+  public static NetworkTableEntry cXEntry;
+
+  public static CameraServer inst;
+  public static MjpegServer server;
+  public static UsbCamera usobo1;
+  public static UsbCamera usobo2;
+
+  public static GripPipeline pipeline;
+  public static Thread thread;
+
+  private static final int IMG_WIDTH = 320;
+  private static final int IMG_HEIGHT = 240;
+  public static double centerX = 0.0;
+  private final Object imgLock = new Object();
 
 // always add last
   public static OI m_oi;
@@ -49,6 +77,7 @@ public class Robot extends TimedRobot {
     cargoIntake = new CargoIntake();
     hatchLatch = new HatchLatch();
 
+
     ShuffleboardTab shuffTab = Shuffleboard.getTab("Drive");
 
     hatchOpen = shuffTab
@@ -63,10 +92,54 @@ public class Robot extends TimedRobot {
     .withPosition(0, 0)
     .getEntry();  
 
+    CameraServer inst = CameraServer.getInstance();
 
-    m_oi = new OI();
+    usobo1 = new UsbCamera("Forward Cam", 0);
+    usobo1.setResolution(IMG_WIDTH, IMG_HEIGHT);
+    usobo1.setExposureAuto();
+    inst.addCamera(usobo1);
+    usobo2 = new UsbCamera("Other Cam", 1);
+    usobo2.setExposureManual(0);
+    inst.addCamera(usobo2);
+
+    server = inst.addServer("serve_USB Camera 0");
+    server.setSource(usobo1);
+    server.setCompression(-1);
+   
+    shuffTab
+    .add("Forward Cam", usobo1)
+    .withWidget(BuiltInWidgets.kCameraStream)
+    .withPosition(1, 0)
+    .withSize(5, 4);  
+
+  cXEntry = shuffTab
+    .add("Center X", centerX)
+    .withWidget(BuiltInWidgets.kNumberBar)
+    .getEntry();
+
+    thread = new Thread(() -> {
+      CvSink cvSink = inst.getVideo();
+
+      Mat source = new Mat();
+
+      while(!Thread.interrupted()){
+        cvSink.grabFrame(source);
+
+        pipeline.process(source);
+
+        if (!pipeline.findContoursOutput().isEmpty()) {
+          Rect r = Imgproc.boundingRect(pipeline.findContoursOutput().get(0));
+
+          synchronized (imgLock) {
+            Robot.centerX = r.x + (r.width /2);
+            Robot.cXEntry.setNumber(Robot.centerX);
+          }
+        }
+      }
+  });
+
+  m_oi = new OI();
   }
-
   /**
    * This function is called every robot packet, no matter the mode. Use
    * this for items like diagnostics that you want ran during disabled,

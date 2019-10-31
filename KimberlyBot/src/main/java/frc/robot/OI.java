@@ -52,9 +52,14 @@ public class OI {
   Button hatchToggle = new JoystickButton(driveStick, 3);
   Button hatchInOut = new JoystickButton(driveStick, 4);
 
+  Button ShiftBtn = new JoystickButton(driveStick, 5);
+  Button AntiShiftBtn = new JoystickButton(driveStick, 6);
+
   public OI() {
     hatchToggle.whenPressed(new LatchToggleGrab());
     hatchInOut.whenPressed(new LatchToggleLocation());
+    ShiftBtn.whenPressed(new Shift());
+    AntiShiftBtn.whenPressed(new AntiShift());
    }
 
 public Joystick getDrivestick() {
